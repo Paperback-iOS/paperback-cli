@@ -19,7 +19,7 @@ $ npm install -g paperback-cli
 $ paperback COMMAND
 running command...
 $ paperback (-v|--version|version)
-paperback-cli/1.0.0 darwin-x64 node-v15.3.0
+paperback-cli/1.0.1 darwin-x64 node-v15.3.0
 $ paperback --help [COMMAND]
 USAGE
   $ paperback COMMAND
@@ -41,7 +41,7 @@ OPTIONS
   -h, --help  show CLI help
 ```
 
-_See code: [src/commands/bundle.ts](https://github.com/FaizanDurrani/paperback-cli/blob/v1.0.0/src/commands/bundle.ts)_
+_See code: [src/commands/bundle.ts](https://github.com/FaizanDurrani/paperback-cli/blob/v1.0.1/src/commands/bundle.ts)_
 
 ## `paperback help [COMMAND]`
 
