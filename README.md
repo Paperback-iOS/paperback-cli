@@ -6,7 +6,7 @@ Paperback CLI for common tools
 [![oclif](https://img.shields.io/badge/cli-oclif-brightgreen.svg)](https://oclif.io)
 [![Version](https://img.shields.io/npm/v/paperback-cli.svg)](https://npmjs.org/package/paperback-cli)
 [![Downloads/week](https://img.shields.io/npm/dw/paperback-cli.svg)](https://npmjs.org/package/paperback-cli)
-[![License](https://img.shields.io/npm/l/paperback-cli.svg)](https://github.com/[object Object]/blob/master/package.json)
+[![License](https://img.shields.io/npm/l/paperback-cli.svg)](https://github.com/FaizanDurrani/paperback-cli/blob/master/package.json)
 
 <!-- toc -->
 * [Usage](#usage)
