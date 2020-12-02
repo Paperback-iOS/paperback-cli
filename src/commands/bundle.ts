@@ -166,6 +166,7 @@ export default class Bundle extends Command {
 
     return new Promise<void>(res => {
       browserify([filePath], {standalone: 'Sources'})
+      .ignore('./node_modules/paperback-extensions-common/dist/APIWrapper.js')
       .external(['axios', 'cheerio', 'fs'])
       .bundle()
       .pipe(

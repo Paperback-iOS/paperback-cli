@@ -30,6 +30,7 @@ USAGE
 <!-- commands -->
 * [`paperback bundle`](#paperback-bundle)
 * [`paperback help [COMMAND]`](#paperback-help-command)
+* [`paperback serve [FILE]`](#paperback-serve-file)
 
 ## `paperback bundle`
 
@@ -57,4 +58,18 @@ OPTIONS
 ```
 
 _See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v3.2.0/src/commands/help.ts)_
+
+## `paperback serve [FILE]`
+
+```
+USAGE
+  $ paperback serve [FILE]
+
+OPTIONS
+  -f, --force
+  -h, --help       show CLI help
+  -n, --name=name  name to print
+```
+
+_See code: [src/commands/serve.ts](https://github.com/FaizanDurrani/paperback-cli/blob/v1.0.2/src/commands/serve.ts)_
 <!-- commandsstop -->

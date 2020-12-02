@@ -51,7 +51,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/FaizanDurrani/paperback-cli.git"
+    "url": "https://github.com/FaizanDurrani/paperback-cli.git"
   },
   "scripts": {
     "postpack": "rm -f oclif.manifest.json",

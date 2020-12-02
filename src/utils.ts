@@ -1,7 +1,40 @@
 import * as fs from 'fs'
 import * as path from 'path'
+import chalk from 'chalk'
 
 export default class Utils {
+  static fixedWidth(number: number, width: number) {
+    return (new Array(width).join('0') + number).substr(-width)
+  }
+
+  static prefixTime(message = '') {
+    const date = new Date()
+
+    const time = `${this.fixedWidth(date.getHours(), 2)}:${Utils.fixedWidth(date.getMinutes(), 2)}:${Utils.fixedWidth(date.getSeconds(), 2)}:${Utils.fixedWidth(date.getMilliseconds(), 4)}`
+    return chalk`[{gray ${time}}] ${message}`
+  }
+
+  static log(message = '') {
+    (process.stdout as any).cursorTo(0)
+    process.stdout.write(this.prefixTime(message) + '\n')
+  }
+
+  static error(message = '') {
+    this.log(chalk`{red ${message}}`)
+  }
+
+  static time(label: string) {
+    const startTime = process.hrtime.bigint()
+
+    return {
+      end: () => {
+        const hrend = process.hrtime.bigint() - startTime
+        // eslint-disable-next-line new-cap
+        this.log(`${label}: ${chalk.green((hrend / BigInt(1000000)) + 'ms')}`)
+      },
+    }
+  }
+
   static deleteFolderRecursive(folderPath: string) {
     folderPath = folderPath.trim()
     if (folderPath.length === 0 || folderPath === '/') return
