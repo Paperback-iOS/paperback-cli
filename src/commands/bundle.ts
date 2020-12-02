@@ -20,7 +20,7 @@ export default class Bundle extends Command {
   };
 
   async run() {
-    updateNotifier({pkg}).notify({defer: false})
+    updateNotifier({pkg, updateCheckInterval: 0}).notify()
 
     this.log(`Working directory: ${process.cwd()}`)
     this.log()
