@@ -15,7 +15,7 @@ export default class Utils {
   }
 
   static log(message = '') {
-    (process.stdout as any).cursorTo(0)
+    (process.stdout as any)?.cursorTo(0)
     process.stdout.write(this.prefixTime(message) + '\n')
   }
 
