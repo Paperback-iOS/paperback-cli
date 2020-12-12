@@ -201,14 +201,15 @@ export default class Bundle extends Command {
      * }
      * The default baseURL will be deducted form GITHUB_REPOSITORY environment variable.
      *
-     * See extensions-commons website-generation/homepage.pug file for more information on the generated homepage
+     * See website-generation/homepage.pug file for more information on the generated homepage
      */
 
     // joining path of directory
     const basePath = process.cwd()
     const directoryPath = path.join(basePath, 'bundles')
     const packageFilePath  = path.join(basePath, 'package.json')
-    const pugFilePath = path.join(basePath, 'node_modules/paperback-extensions-common/src/website-generation/homepage.pug')
+    // homepage.pug file is added to the package during the prepack process
+    const pugFilePath = path.join(basePath, 'node_modules/paperback-cli/lib/website-generation/homepage.pug')
     const versioningFilePath  = path.join(directoryPath, 'versioning.json')
 
     // The homepage should only be generated if a package.json file exist at the root of the repo
@@ -279,7 +280,7 @@ export default class Bundle extends Command {
         repositoryData.repositoryLogo = packageData.repositoryLogo
       }
 
-      // Compilation of the pug file which is available in extension-commons website-generation folder
+      // Compilation of the pug file which is available in website-generation folder
       const htmlCode = pug.compileFile(pugFilePath)(
         repositoryData
       )
