@@ -209,7 +209,7 @@ export default class Bundle extends Command {
     const directoryPath = path.join(basePath, 'bundles')
     const packageFilePath  = path.join(basePath, 'package.json')
     // homepage.pug file is added to the package during the prepack process
-    const pugFilePath = path.join(basePath, 'node_modules/paperback-cli/lib/website-generation/homepage.pug')
+    const pugFilePath = path.join(__dirname, '../website-generation/homepage.pug')
     const versioningFilePath  = path.join(directoryPath, 'versioning.json')
 
     // The homepage should only be generated if a package.json file exist at the root of the repo
