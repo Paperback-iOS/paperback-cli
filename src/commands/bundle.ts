@@ -80,9 +80,8 @@ export default class Bundle extends Command {
 
     return new Promise<any>((res, rej) => {
       const req = require(finalPath)
-      const Source = req[sourceId]
 
-      const classInstance = new Source(null)
+      const classInstance = req[`${sourceId}Info`]
 
       // make sure the icon is present in the includes folder.
       if (!fs.existsSync(path.join(directoryPath, sourceId, 'includes', classInstance.icon))) {
