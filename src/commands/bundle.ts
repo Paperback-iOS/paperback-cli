@@ -80,7 +80,7 @@ export default class Bundle extends Command {
 
     const finalPath = path.join(directoryPath, sourceId, 'source.js')
 
-    await new Promise<any>((res, rej) => {
+    return new Promise<any>((res, rej) => {
       const req = require(finalPath)
 
       const classInstance = req[`${sourceId}Info`]
