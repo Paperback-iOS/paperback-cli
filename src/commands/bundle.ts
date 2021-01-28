@@ -25,12 +25,13 @@ export default class Bundle extends Command {
     this.log(`Working directory: ${process.cwd()}`)
     this.log()
 
-    const execTime = this.time('Execution time')
+    const execTime = this.time('Execution time', Utils.headingFormat)
     await this.bundleSources()
 
-    const versionTime = this.time('Versioning File')
+    const versionTime = this.time('Versioning File', Utils.headingFormat)
     await this.generateVersioningFile()
     versionTime.end()
+    this.log()
 
     execTime.end()
   }
@@ -47,11 +48,12 @@ export default class Bundle extends Command {
 
     const promises = fs.readdirSync(directoryPath).map(async file => {
       try {
+        const time = this.time(`- Generating ${file} Info`)
         const sourceInfo = await this.generateSourceInfo(file, directoryPath)
-
         jsonObject.sources.push(sourceInfo)
+        time.end()
       } catch (error) {
-        this.log(error)
+        this.log(`- ${file} ${error}`)
       }
     })
 
@@ -78,7 +80,7 @@ export default class Bundle extends Command {
 
     const finalPath = path.join(directoryPath, sourceId, 'source.js')
 
-    return new Promise<any>((res, rej) => {
+    await new Promise<any>((res, rej) => {
       const req = require(finalPath)
 
       const classInstance = req[`${sourceId}Info`]
@@ -109,20 +111,26 @@ export default class Bundle extends Command {
     // Make sure there isn't a built folder already
     Utils.deleteFolderRecursive(path.join(basePath, 'temp_build'))
 
-    const transpileTime = this.time('Transpiling project')
+    const transpileTime = this.time('Transpiling project', Utils.headingFormat)
     shelljs.exec('npx tsc --outDir temp_build')
     transpileTime.end()
 
     this.log()
 
-    const bundleTime = this.time('Bundle time')
+    const bundleTime = this.time('Bundle time', Utils.headingFormat)
     const bundlesPath = path.join(basePath, 'bundles')
     Utils.deleteFolderRecursive(bundlesPath)
     fs.mkdirSync(bundlesPath)
 
     const directoryPath = path.join(basePath, 'temp_build')
     const promises: Promise<void>[] = fs.readdirSync(directoryPath).map(async file => {
-      const fileBundleTime = this.time(`Building ${file}`)
+      const fileBundleTime = this.time(`- Building ${file}`)
+
+      Utils.copyFolderRecursive(
+        path.join(basePath, 'src', file, 'external'),
+        path.join(directoryPath, file)
+      )
+
       await this.bundle(file, directoryPath, bundlesPath)
 
       Utils.copyFolderRecursive(
@@ -161,7 +169,9 @@ export default class Bundle extends Command {
     }
 
     const outputPath = path.join(destDir, file)
-    fs.mkdirSync(outputPath)
+    if (!fs.existsSync(outputPath)) {
+      fs.mkdirSync(outputPath)
+    }
 
     return new Promise<void>(res => {
       browserify([filePath], {standalone: 'Sources'})

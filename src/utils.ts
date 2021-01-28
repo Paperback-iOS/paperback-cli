@@ -26,17 +26,19 @@ export default class Utils {
     this.log(chalk`{red ${message}}`)
   }
 
-  static time(label: string) {
+  static time(label: string, template = '$1') {
     const startTime = process.hrtime.bigint()
 
     return {
       end: () => {
         const hrend = process.hrtime.bigint() - startTime
         // eslint-disable-next-line new-cap
-        this.log(`${label}: ${chalk.green((hrend / BigInt(1000000)) + 'ms')}`)
+        this.log(`${template.replace('$1', label)}: ${chalk.green((hrend / BigInt(1000000)) + 'ms')}`)
       },
     }
   }
+
+  static headingFormat = chalk`{bold {red #} $1}`
 
   static deleteFolderRecursive(folderPath: string) {
     folderPath = folderPath.trim()
