@@ -7,7 +7,7 @@ export default abstract class extends Command {
     Utils.log(message)
   }
 
-  time(label: string) {
-    return Utils.time(label)
+  time(label: string, format: string | undefined = undefined) {
+    return Utils.time(label, format)
   }
 }
