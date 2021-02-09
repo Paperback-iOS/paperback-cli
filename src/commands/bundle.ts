@@ -36,9 +36,10 @@ export default class Bundle extends Command {
     versionTime.end()
     this.log()
 
-    const homepageTime = this.time('Homepage Generation')
+    const homepageTime = this.time('Homepage Generation', Utils.headingFormat)
     await this.generateHomepage()
     homepageTime.end()
+    this.log()
 
     execTime.end()
   }
@@ -223,8 +224,7 @@ export default class Bundle extends Command {
 
     // The homepage should only be generated if a package.json file exist at the root of the repo
     if (fs.existsSync(packageFilePath)) {
-      this.log()
-      this.log('Generation of the repository homepage')
+      this.log('- Generating the repository homepage')
 
       // We need data from package.json and versioning.json created previously
       const packageData = JSON.parse(fs.readFileSync(packageFilePath, 'utf8'))
