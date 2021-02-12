@@ -17,26 +17,28 @@ export default class Bundle extends Command {
 
   static flags = {
     help: flags.help({char: 'h'}),
+    folder: flags.string({description: 'Subfolder to output to', required: false}),
   };
 
   async run() {
     updateNotifier({pkg, updateCheckInterval: 0}).notify()
+    const {flags} = this.parse(Bundle)
 
     this.log(`Working directory: ${process.cwd()}`)
     this.log()
 
     const execTime = this.time('Execution time', Utils.headingFormat)
-    await this.bundleSources()
+    await this.bundleSources(flags.folder)
 
     const versionTime = this.time('Versioning File', Utils.headingFormat)
-    await this.generateVersioningFile()
+    await this.generateVersioningFile(flags.folder)
     versionTime.end()
     this.log()
 
     execTime.end()
   }
 
-  async generateVersioningFile() {
+  async generateVersioningFile(folder = '') {
     const jsonObject = {
       buildTime: new Date(),
       sources: [] as any[],
@@ -44,7 +46,7 @@ export default class Bundle extends Command {
 
     // joining path of directory
     const basePath = process.cwd()
-    const directoryPath = path.join(basePath, 'bundles')
+    const directoryPath = path.join(basePath, 'bundles', folder)
 
     const promises = fs.readdirSync(directoryPath).map(async file => {
       try {
@@ -105,7 +107,7 @@ export default class Bundle extends Command {
     })
   }
 
-  async bundleSources() {
+  async bundleSources(folder = '') {
     const basePath = process.cwd()
 
     // Make sure there isn't a built folder already
@@ -118,9 +120,12 @@ export default class Bundle extends Command {
     this.log()
 
     const bundleTime = this.time('Bundle time', Utils.headingFormat)
-    const bundlesPath = path.join(basePath, 'bundles')
-    Utils.deleteFolderRecursive(bundlesPath)
-    fs.mkdirSync(bundlesPath)
+    const baseBundlesPath = path.join(basePath, 'bundles')
+    const bundlesPath = path.join(baseBundlesPath, folder)
+
+    Utils.deleteFolderRecursive(baseBundlesPath)
+
+    fs.mkdirSync(bundlesPath, {recursive: true})
 
     const directoryPath = path.join(basePath, 'temp_build')
     const promises: Promise<void>[] = fs.readdirSync(directoryPath).map(async file => {
