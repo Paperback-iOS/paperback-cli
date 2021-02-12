@@ -123,7 +123,7 @@ export default class Bundle extends Command {
     const baseBundlesPath = path.join(basePath, 'bundles')
     const bundlesPath = path.join(baseBundlesPath, folder)
 
-    Utils.deleteFolderRecursive(baseBundlesPath)
+    Utils.deleteFolderRecursive(bundlesPath)
 
     fs.mkdirSync(bundlesPath, {recursive: true})
 
