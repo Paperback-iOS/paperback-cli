@@ -19,7 +19,7 @@ $ npm install -g paperback-cli
 $ paperback COMMAND
 running command...
 $ paperback (-v|--version|version)
-paperback-cli/1.2.5 darwin-x64 node-v15.3.0
+paperback-cli/1.3.0 darwin-x64 node-v15.3.0
 $ paperback --help [COMMAND]
 USAGE
   $ paperback COMMAND
@@ -39,10 +39,11 @@ USAGE
   $ paperback bundle
 
 OPTIONS
-  -h, --help  show CLI help
+  -h, --help       show CLI help
+  --folder=folder  Subfolder to output to
 ```
 
-_See code: [src/commands/bundle.ts](https://github.com/FaizanDurrani/paperback-cli/blob/v1.2.5/src/commands/bundle.ts)_
+_See code: [src/commands/bundle.ts](https://github.com/FaizanDurrani/paperback-cli/blob/v1.3.0/src/commands/bundle.ts)_
 
 ## `paperback help [COMMAND]`
 
@@ -70,5 +71,5 @@ OPTIONS
   -p, --port=port  [default: 8080]
 ```
 
-_See code: [src/commands/serve.ts](https://github.com/FaizanDurrani/paperback-cli/blob/v1.2.5/src/commands/serve.ts)_
+_See code: [src/commands/serve.ts](https://github.com/FaizanDurrani/paperback-cli/blob/v1.3.0/src/commands/serve.ts)_
 <!-- commandsstop -->
