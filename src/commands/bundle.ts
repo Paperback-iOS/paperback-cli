@@ -271,7 +271,7 @@ export default class Bundle extends Command {
           repositoryData.baseURL = 'undefined'
           repositoryData.noAddToPaperbackButton = true
         } else {
-          const split = github_repository_environment_variable.split('/')
+          const split = github_repository_environment_variable.toLowerCase().split('/')
           this.log(`Using base URL deducted from GITHUB_REPOSITORY environment variable: https://${split[0]}.github.io/${split[1]}`)
           repositoryData.baseURL = `https://${split[0]}.github.io/${split[1]}`
         }
