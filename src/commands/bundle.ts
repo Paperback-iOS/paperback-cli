@@ -200,7 +200,7 @@ export default class Bundle extends Command {
      *
      * Following fields must be registered in package.json:
      * {
-     *    name: "The repository name"
+     *    repositoryName: "The repository name"
      *    description: "The repository description"
      * }
      * The following fields can be used:
@@ -257,7 +257,7 @@ export default class Bundle extends Command {
       */
       const repositoryData: {[id: string]: unknown} = {}
 
-      repositoryData.repositoryName = packageData.name
+      repositoryData.repositoryName = packageData.repositoryName
       repositoryData.repositoryDescription = packageData.description
       repositoryData.sources = extensionList
 
