@@ -23,7 +23,7 @@ export default class Serve extends Command {
     this.log(chalk.underline.blue('Building Sources'))
 
     // Make sure the repo is bundled
-    await Bundle.run()
+    await Bundle.run([])
     this.log()
     this.log(chalk.underline.blue('Starting Server on port ' + flags.port))
 
