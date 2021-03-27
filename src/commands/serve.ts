@@ -12,6 +12,7 @@ export default class Serve extends Command {
   static flags = {
     help: flags.help({char: 'h'}),
     port: flags.integer({char: 'p', default: 8080}),
+    nobundle: flags.boolean({description: 'Prevent bundling when launching serve. Will use existing bundle. Make sure that it\'s present.', default: false}),
   }
 
   async run() {
@@ -20,10 +21,13 @@ export default class Serve extends Command {
     // eslint-disable-next-line no-console
     console.clear()
 
-    this.log(chalk.underline.blue('Building Sources'))
+    if (flags.nobundle) {
+      this.log(chalk.underline.blue('nobundle argument detected => NOT building sources, make sure that a bundle is present.'))
+    } else {
+      this.log(chalk.underline.blue('Building Sources'))
+      await Bundle.run([])
+    }
 
-    // Make sure the repo is bundled
-    await Bundle.run([])
     this.log()
     this.log(chalk.underline.blue('Starting Server on port ' + flags.port))
 
@@ -57,9 +61,10 @@ export default class Serve extends Command {
 
         this.log(chalk.underline.blue('Building Sources'))
 
-        // Make sure the repo is bundled
-        // eslint-disable-next-line no-await-in-loop
-        await Bundle.run()
+        if (!flags.nobundle) {
+          // eslint-disable-next-line no-await-in-loop
+          await Bundle.run([])
+        }
         this.log()
         this.log(chalk.underline.blue('Starting Server on port ' + flags.port))
 
