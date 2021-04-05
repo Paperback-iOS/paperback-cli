@@ -37,7 +37,7 @@ export default class Bundle extends Command {
     this.log()
 
     const homepageTime = this.time('Homepage Generation', Utils.headingFormat)
-    await this.generateHomepage()
+    await this.generateHomepage(flags.folder)
     homepageTime.end()
     this.log()
 
@@ -194,7 +194,7 @@ export default class Bundle extends Command {
     })
   }
 
-  async generateHomepage()  {
+  async generateHomepage(folder = '')  {
     /*
      * Generate a homepage for the repository based on the package.json file and the generated versioning.json
      *
@@ -216,7 +216,7 @@ export default class Bundle extends Command {
 
     // joining path of directory
     const basePath = process.cwd()
-    const directoryPath = path.join(basePath, 'bundles')
+    const directoryPath = path.join(basePath, 'bundles', folder)
     const packageFilePath  = path.join(basePath, 'package.json')
     // homepage.pug file is added to the package during the prepack process
     const pugFilePath = path.join(__dirname, '../website-generation/homepage.pug')
@@ -272,8 +272,9 @@ export default class Bundle extends Command {
           repositoryData.noAddToPaperbackButton = true
         } else {
           const split = github_repository_environment_variable.toLowerCase().split('/')
-          this.log(`Using base URL deducted from GITHUB_REPOSITORY environment variable: https://${split[0]}.github.io/${split[1]}`)
-          repositoryData.baseURL = `https://${split[0]}.github.io/${split[1]}`
+          // The capitalization of folder is important, using folder.toLowerCase() make a non working link
+          this.log(`Using base URL deducted from GITHUB_REPOSITORY environment variable: https://${split[0]}.github.io/${split[1]}${(folder === '') ? '' : '/' + folder}`)
+          repositoryData.baseURL = `https://${split[0]}.github.io/${split[1]}${(folder === '') ? '' : '/' + folder}`
         }
       } else {
         this.log(`Using custom baseURL: ${packageData.baseURL}`)
@@ -295,7 +296,7 @@ export default class Bundle extends Command {
       )
 
       fs.writeFileSync(
-        path.join(basePath, 'bundles', 'index.html'),
+        path.join(directoryPath, 'index.html'),
         htmlCode
       )
     }
