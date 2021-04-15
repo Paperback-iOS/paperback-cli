@@ -1,6 +1,7 @@
 import * as http from 'http'
 import * as fs from 'fs'
 import * as path from 'path'
+import * as ip from 'ip'
 import Utils from './utils'
 import chalk from 'chalk'
 
@@ -63,7 +64,9 @@ export default class Server {
         }
       })
     }).listen(this.port)
+
     Utils.log(`Server running at ${chalk.green(`http://127.0.0.1:${this.port}/versioning.json`)}`)
+    Utils.log(`Server running at ${chalk.green(`http://${ip.address()}:${this.port}/versioning.json`)}`)
   }
 
   stop() {
