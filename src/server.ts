@@ -1,7 +1,7 @@
 import * as http from 'http'
 import * as fs from 'fs'
 import * as path from 'path'
-import * as os from 'os'
+import * as ip from 'ip'
 import Utils from './utils'
 import chalk from 'chalk'
 
@@ -65,15 +65,8 @@ export default class Server {
       })
     }).listen(this.port)
 
-    // Just in case I want other interfaces
-    let networkInterfaces = os.networkInterfaces();
-
-    // For now though, I just want my ehternet interface
-    let ethernet = networkInterfaces['Ethernet'];
-    let ethernetv4 = ethernet.filter(addr => addr.family == 'IPv4')[0].address;
-
     Utils.log(`Server running at ${chalk.green(`http://127.0.0.1:${this.port}/versioning.json`)}`)
-    Utils.log(`Server running at ${chalk.green(`http://${ethernetv4}:${this.port}/versioning.json`)}`)
+    Utils.log(`Server running at ${chalk.green(`http://${ip.address()}:${this.port}/versioning.json`)}`)
   }
 
   stop() {
