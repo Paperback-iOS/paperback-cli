@@ -107,7 +107,7 @@ export default class Bundle extends Command {
         author: classInstance.author,
         desc: classInstance.description,
         website: classInstance.authorWebsite,
-        adultContentAvailable: classInstance.hentaiSource,
+        adultContentAvailable: classInstance.hentaiSource ?? true,  // If for some reason this is omitted, we should default to true just to be safe
         version: classInstance.version,
         icon: classInstance.icon,
         tags: classInstance.sourceTags,
