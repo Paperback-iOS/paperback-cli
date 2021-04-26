@@ -107,6 +107,7 @@ export default class Bundle extends Command {
         author: classInstance.author,
         desc: classInstance.description,
         website: classInstance.authorWebsite,
+        adultContentAvailable: classInstance.hentaiSource,
         version: classInstance.version,
         icon: classInstance.icon,
         tags: classInstance.sourceTags,
