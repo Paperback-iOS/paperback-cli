@@ -107,6 +107,7 @@ export default class Bundle extends Command {
         author: classInstance.author,
         desc: classInstance.description,
         website: classInstance.authorWebsite,
+        contentRating: classInstance.contentRating,
         version: classInstance.version,
         icon: classInstance.icon,
         tags: classInstance.sourceTags,
