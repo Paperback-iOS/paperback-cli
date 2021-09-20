@@ -1,0 +1,13 @@
+./protoc /Users/paper/Developer/NodeProjects/paperback-cli/src/devtools/protobuf/pdt.proto \
+--plugin=../plugins/protoc-gen-swift \
+--swift_opt=Visibility=Public \
+--swift_out=/Users/paper/Developer/NodeProjects/paperback-cli/src/devtools/generated/swift \
+--plugin=../plugins/protoc-gen-grpc-swift \
+--grpc-swift_opt=Visibility=Public \
+--grpc-swift_out=/Users/paper/Developer/NodeProjects/paperback-cli/src/devtools/generated/swift \
+--proto_path=/Users/paper/Developer/NodeProjects/paperback-cli/src/devtools/protobuf \
+--js_out=import_style=commonjs,binary:/Users/paper/Developer/NodeProjects/paperback-cli/src/devtools/generated/typescript \
+--ts_out=/Users/paper/Developer/NodeProjects/paperback-cli/src/devtools/generated/typescript \
+--plugin=protoc-gen-ts=/Users/paper/Developer/NodeProjects/paperback-cli/node_modules/.bin/protoc-gen-ts \
+--plugin=protoc-gen-grpc=/Users/paper/Developer/NodeProjects/paperback-cli/node_modules/.bin/grpc_tools_node_protoc_plugin \
+--grpc_out=import_style=commonjs,binary:/Users/paper/Developer/NodeProjects/paperback-cli/src/devtools/generated/typescript

@@ -10,4 +10,10 @@ export default abstract class extends Command {
   time(label: string, format: string | undefined = undefined) {
     return Utils.time(label, format)
   }
+
+  async measure(label: string, format: string | undefined = undefined, closure: () => Promise<void>) {
+    const time = Utils.time(label, format)
+    await closure()
+    time.end()
+  }
 }

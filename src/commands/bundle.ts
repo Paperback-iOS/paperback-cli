@@ -24,7 +24,7 @@ export default class Bundle extends Command {
   };
 
   async run() {
-    updateNotifier({pkg, updateCheckInterval: 0}).notify()
+    updateNotifier({pkg, updateCheckInterval: 86000}).notify()
     const {flags} = this.parse(Bundle)
 
     this.log(`Working directory: ${process.cwd()}`)
@@ -47,14 +47,20 @@ export default class Bundle extends Command {
   }
 
   async generateVersioningFile(folder = '') {
-    const jsonObject = {
-      buildTime: new Date(),
-      sources: [] as any[],
-    }
-
     // joining path of directory
     const basePath = process.cwd()
     const directoryPath = path.join(basePath, 'bundles', folder)
+    const cliInfo = require('../../package.json')
+    const commonsInfo = require(path.join(basePath, 'node_modules/paperback-extensions-common/package.json'))
+
+    const jsonObject = {
+      buildTime: new Date(),
+      sources: [] as any[],
+      builtWith: {
+        cli: cliInfo.version,
+        commons: commonsInfo.version,
+      },
+    }
 
     const promises = fs.readdirSync(directoryPath).map(async file => {
       try {
@@ -88,7 +94,7 @@ export default class Bundle extends Command {
       return Promise.resolve()
     }
 
-    const finalPath = path.join(directoryPath, sourceId, 'source.js')
+    const finalPath = path.join(directoryPath, sourceId, 'index.js')
 
     return new Promise<any>((res, rej) => {
       const req = require(finalPath)
@@ -145,7 +151,12 @@ export default class Bundle extends Command {
         path.join(directoryPath, file)
       )
 
-      await this.bundle(file, directoryPath, bundlesPath)
+      await Promise.all([
+        this.bundle(file, directoryPath, bundlesPath),
+
+        // For 0.6 support
+        this.bundlev06(file, directoryPath, bundlesPath),
+      ])
 
       Utils.copyFolderRecursive(
         path.join(basePath, 'src', file, 'includes'),
@@ -163,7 +174,43 @@ export default class Bundle extends Command {
     Utils.deleteFolderRecursive(path.join(basePath, 'temp_build'))
   }
 
-  async bundle(file: string, sourceDir: string, destDir: string)  {
+  async bundle(file: string, sourceDir: string, destDir: string) {
+    if (file === 'tests') {
+      this.log('Tests directory, skipping')
+      return Promise.resolve()
+    }
+
+    // If its a directory
+    if (!fs.statSync(path.join(sourceDir, file)).isDirectory()) {
+      this.log('Not a directory, skipping ' + file)
+      return Promise.resolve()
+    }
+
+    const filePath = path.join(sourceDir, file, `/${file}.js`)
+
+    if (!fs.existsSync(filePath)) {
+      this.log("The file doesn't exist, skipping. " + file)
+      return Promise.resolve()
+    }
+
+    const outputPath = path.join(destDir, file)
+    if (!fs.existsSync(outputPath)) {
+      fs.mkdirSync(outputPath)
+    }
+
+    return new Promise<void>(res => {
+      browserify([filePath], {standalone: 'Sources'})
+      .external(['axios', 'fs'])
+      .bundle()
+      .pipe(
+        fs.createWriteStream(path.join(outputPath, 'index.js')).on('finish', () => {
+          res()
+        })
+      )
+    })
+  }
+
+  async bundlev06(file: string, sourceDir: string, destDir: string)  {
     if (file === 'tests') {
       this.log('Tests directory, skipping')
       return Promise.resolve()

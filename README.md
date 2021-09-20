@@ -19,7 +19,7 @@ $ npm install -g paperback-cli
 $ paperback COMMAND
 running command...
 $ paperback (-v|--version|version)
-paperback-cli/1.3.3 darwin-x64 node-v15.3.0
+paperback-cli/1.4.0 darwin-x64 node-v15.3.0
 $ paperback --help [COMMAND]
 USAGE
   $ paperback COMMAND
@@ -30,6 +30,7 @@ USAGE
 <!-- commands -->
 * [`paperback bundle`](#paperback-bundle)
 * [`paperback help [COMMAND]`](#paperback-help-command)
+* [`paperback logcat`](#paperback-logcat)
 * [`paperback serve`](#paperback-serve)
 
 ## `paperback bundle`
@@ -43,7 +44,7 @@ OPTIONS
   --folder=folder  Subfolder to output to
 ```
 
-_See code: [src/commands/bundle.ts](https://github.com/FaizanDurrani/paperback-cli/blob/v1.3.3/src/commands/bundle.ts)_
+_See code: [src/commands/bundle.ts](https://github.com/FaizanDurrani/paperback-cli/blob/v1.4.0/src/commands/bundle.ts)_
 
 ## `paperback help [COMMAND]`
 
@@ -60,6 +61,19 @@ OPTIONS
 
 _See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v3.2.0/src/commands/help.ts)_
 
+## `paperback logcat`
+
+```
+USAGE
+  $ paperback logcat
+
+OPTIONS
+  --ip=ip      [default: localhost]
+  --port=port  [default: 27015]
+```
+
+_See code: [src/commands/logcat.ts](https://github.com/FaizanDurrani/paperback-cli/blob/v1.4.0/src/commands/logcat.ts)_
+
 ## `paperback serve`
 
 ```
@@ -71,5 +85,5 @@ OPTIONS
   -p, --port=port  [default: 8080]
 ```
 
-_See code: [src/commands/serve.ts](https://github.com/FaizanDurrani/paperback-cli/blob/v1.3.3/src/commands/serve.ts)_
+_See code: [src/commands/serve.ts](https://github.com/FaizanDurrani/paperback-cli/blob/v1.4.0/src/commands/serve.ts)_
 <!-- commandsstop -->
