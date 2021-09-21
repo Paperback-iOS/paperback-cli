@@ -21,6 +21,7 @@ export default class Bundle extends Command {
   static flags = {
     help: flags.help({char: 'h'}),
     folder: flags.string({description: 'Subfolder to output to', required: false}),
+    sourceslocation: flags.string({description: 'Subfolder where sources are located', required: false}),
   };
 
   async run() {
@@ -31,7 +32,7 @@ export default class Bundle extends Command {
     this.log()
 
     const execTime = this.time('Execution time', Utils.headingFormat)
-    await this.bundleSources(flags.folder)
+    await this.bundleSources(flags.folder, flags.sourceslocation)
 
     const versionTime = this.time('Versioning File', Utils.headingFormat)
     await this.generateVersioningFile(flags.folder)
@@ -116,7 +117,7 @@ export default class Bundle extends Command {
     })
   }
 
-  async bundleSources(folder = '') {
+  async bundleSources(folder = '', sourcesLocation = '') {
     const basePath = process.cwd()
 
     // Make sure there isn't a built folder already
@@ -136,25 +137,47 @@ export default class Bundle extends Command {
 
     fs.mkdirSync(bundlesPath, {recursive: true})
 
-    const directoryPath = path.join(basePath, 'temp_build')
-    const promises: Promise<void>[] = fs.readdirSync(directoryPath).map(async file => {
-      const fileBundleTime = this.time(`- Building ${file}`)
+    if (sourcesLocation === '') {
+      const directoryPath = path.join(basePath, 'temp_build')
+      const promises: Promise<void>[] = fs.readdirSync(directoryPath).map(async file => {
+        const fileBundleTime = this.time(`- Building ${file}`)
 
-      Utils.copyFolderRecursive(
-        path.join(basePath, 'src', file, 'external'),
-        path.join(directoryPath, file)
-      )
+        Utils.copyFolderRecursive(
+          path.join(basePath, 'src', file, 'external'),
+          path.join(directoryPath, file)
+        )
 
-      await this.bundle(file, directoryPath, bundlesPath)
+        await this.bundle(file, directoryPath, bundlesPath)
 
-      Utils.copyFolderRecursive(
-        path.join(basePath, 'src', file, 'includes'),
-        path.join(bundlesPath, file)
-      )
-      fileBundleTime.end()
-    })
+        Utils.copyFolderRecursive(
+          path.join(basePath, 'src', file, 'includes'),
+          path.join(bundlesPath, file)
+        )
+        fileBundleTime.end()
+      })
 
-    await Promise.all(promises)
+      await Promise.all(promises)
+    } else {
+      const directoryPath = path.join(basePath, 'temp_build', sourcesLocation)
+      const promises: Promise<void>[] = fs.readdirSync(directoryPath).map(async file => {
+        const fileBundleTime = this.time(`- Building ${file}`)
+
+        Utils.copyFolderRecursive(
+          path.join(basePath, 'src', sourcesLocation, file, 'external'),
+          path.join(directoryPath, file)
+        )
+
+        await this.bundle(file, directoryPath, bundlesPath)
+
+        Utils.copyFolderRecursive(
+          path.join(basePath, 'src', sourcesLocation, file, 'includes'),
+          path.join(bundlesPath, file)
+        )
+        fileBundleTime.end()
+      })
+
+      await Promise.all(promises)
+    }
 
     bundleTime.end()
 
