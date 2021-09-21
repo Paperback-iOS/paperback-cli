@@ -1,19 +1,20 @@
-import {credentials} from '@grpc/grpc-js'
-import {Command, flags} from '@oclif/command'
-import {PaperbackLoggerClient} from '../devtools/generated/typescript/pdt_grpc_pb'
-import {LogFilter, LogLine} from '../devtools/generated/typescript/pdt_pb'
+import { credentials } from '@grpc/grpc-js'
+import { flags } from '@oclif/command'
+import { PaperbackLoggerClient } from '../devtools/generated/typescript/pdt_grpc_pb'
+import { LogFilter, LogLine } from '../devtools/generated/typescript/pdt_pb'
 import chalk from 'chalk'
+import { CLICommand } from '../command'
 
-export default class Logcat extends Command {
+export default class Logcat extends CLICommand {
   static description = 'describe the command here'
 
   static flags = {
-    ip: flags.string({name: 'ip', default: 'localhost'}),
-    port: flags.integer({name: 'port', default: 27015}),
+    ip: flags.string({ name: 'ip', default: 'localhost' }),
+    port: flags.integer({ name: 'port', default: 27015 }),
   }
 
   async run() {
-    const {flags} = this.parse(Logcat)
+    const { flags } = this.parse(Logcat)
 
     await new Promise((resolve, reject) => {
       const test = new PaperbackLoggerClient(`${flags.ip}:${flags.port}`, credentials.createInsecure())

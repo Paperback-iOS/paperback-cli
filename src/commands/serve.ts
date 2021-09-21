@@ -1,21 +1,21 @@
-import {flags} from '@oclif/command'
-import Command from '../command'
+import { flags } from '@oclif/command'
+import { CLICommand } from '../command'
 import Bundle from './bundle'
 import Server from '../server'
 import cli from 'cli-ux'
 import Utils from '../utils'
 import chalk from 'chalk'
 
-export default class Serve extends Command {
+export default class Serve extends CLICommand {
   static description = 'Build the sources and start a local server'
 
   static flags = {
-    help: flags.help({char: 'h'}),
-    port: flags.integer({char: 'p', default: 8080}),
+    help: flags.help({ char: 'h' }),
+    port: flags.integer({ char: 'p', default: 8080 }),
   }
 
   async run() {
-    const {flags} = this.parse(Serve)
+    const { flags } = this.parse(Serve)
 
     // eslint-disable-next-line no-console
     console.clear()
@@ -36,7 +36,7 @@ export default class Serve extends Command {
     let stopServer = false
     while (!stopServer) {
       // eslint-disable-next-line no-await-in-loop
-      const input = (await cli.prompt(Utils.prefixTime(''), {required: false}) as string)?.trim() ?? ''
+      const input = (await cli.prompt(Utils.prefixTime(''), { required: false }) as string)?.trim() ?? ''
 
       if (input === 'h' || input === 'help') {
         this.log(chalk.underline.bold('Help'))
@@ -59,7 +59,7 @@ export default class Serve extends Command {
 
         // Make sure the repo is bundled
         // eslint-disable-next-line no-await-in-loop
-        await Bundle.run()
+        await Bundle.run([])
         this.log()
         this.log(chalk.underline.blue('Starting Server on port ' + flags.port))
 

@@ -79,6 +79,7 @@
     "grpc-tools": "^1.11.2",
     "ip": "^1.1.5",
     "listr": "^0.14.3",
+    "paperback-extensions-common": "^5.0.0-alpha.2",
     "pug": "^3.0.1",
     "shelljs": "^0.8.4",
     "tsify": "^5.0.2",

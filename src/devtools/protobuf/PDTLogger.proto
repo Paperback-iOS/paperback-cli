@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
+
+service PaperbackLogger {
+    rpc streamLogs(LogFilter) returns (stream LogLine) {}
+}
+
+message LogLine {
+    enum LogLevel {
+        INFO = 0;
+        WARN = 1;
+        ERROR = 2;
+    }
+    LogLevel level = 1;
+    string tag = 2;
+    string message = 3;
+    google.protobuf.Timestamp date = 4;
+}
+
+message LogFilter {}

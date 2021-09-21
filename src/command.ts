@@ -2,7 +2,7 @@
 import Command from '@oclif/command'
 import Utils from './utils'
 
-export default abstract class extends Command {
+export abstract class CLICommand extends Command {
   log(message = '') {
     Utils.log(message)
   }

@@ -35,6 +35,8 @@ USAGE
 
 ## `paperback bundle`
 
+Builds all the sources in the repository and generates a versioning file
+
 ```
 USAGE
   $ paperback bundle
@@ -48,6 +50,8 @@ _See code: [src/commands/bundle.ts](https://github.com/FaizanDurrani/paperback-c
 
 ## `paperback help [COMMAND]`
 
+display help for paperback
+
 ```
 USAGE
   $ paperback help [COMMAND]
@@ -59,9 +63,11 @@ OPTIONS
   --all  see all commands in CLI
 ```
 
-_See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v3.2.0/src/commands/help.ts)_
+_See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v3.2.3/src/commands/help.ts)_
 
 ## `paperback logcat`
+
+describe the command here
 
 ```
 USAGE
@@ -75,6 +81,8 @@ OPTIONS
 _See code: [src/commands/logcat.ts](https://github.com/FaizanDurrani/paperback-cli/blob/v1.4.0/src/commands/logcat.ts)_
 
 ## `paperback serve`
+
+Build the sources and start a local server
 
 ```
 USAGE

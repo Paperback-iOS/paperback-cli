@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
-import {flags} from '@oclif/command'
-import Command from '../command'
+import { flags } from '@oclif/command'
+import { CLICommand } from '../command'
 import * as path from 'path'
 import * as fs from 'fs'
 
@@ -14,18 +14,18 @@ const pkg = require('../../package.json')
 // Homepage generation requirement
 const pug = require('pug')
 
-export default class Bundle extends Command {
+export default class Bundle extends CLICommand {
   static description =
     'Builds all the sources in the repository and generates a versioning file';
 
   static flags = {
-    help: flags.help({char: 'h'}),
-    folder: flags.string({description: 'Subfolder to output to', required: false}),
+    help: flags.help({ char: 'h' }),
+    folder: flags.string({ description: 'Subfolder to output to', required: false }),
   };
 
   async run() {
-    updateNotifier({pkg, updateCheckInterval: 86000}).notify()
-    const {flags} = this.parse(Bundle)
+    updateNotifier({ pkg, updateCheckInterval: 86000 }).notify()
+    const { flags } = this.parse(Bundle)
 
     this.log(`Working directory: ${process.cwd()}`)
     this.log()
@@ -140,7 +140,7 @@ export default class Bundle extends Command {
 
     Utils.deleteFolderRecursive(bundlesPath)
 
-    fs.mkdirSync(bundlesPath, {recursive: true})
+    fs.mkdirSync(bundlesPath, { recursive: true })
 
     const directoryPath = path.join(basePath, 'temp_build')
     const promises: Promise<void>[] = fs.readdirSync(directoryPath).map(async file => {
@@ -199,7 +199,7 @@ export default class Bundle extends Command {
     }
 
     return new Promise<void>(res => {
-      browserify([filePath], {standalone: 'Sources'})
+      browserify([filePath], { standalone: 'Sources' })
       .external(['axios', 'fs'])
       .bundle()
       .pipe(
@@ -235,7 +235,7 @@ export default class Bundle extends Command {
     }
 
     return new Promise<void>(res => {
-      browserify([filePath], {standalone: 'Sources'})
+      browserify([filePath], { standalone: 'Sources' })
       .ignore('./node_modules/paperback-extensions-common/dist/APIWrapper.js')
       .external(['axios', 'cheerio', 'fs'])
       .bundle()
