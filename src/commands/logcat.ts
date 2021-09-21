@@ -1,7 +1,7 @@
 import { credentials } from '@grpc/grpc-js'
 import { flags } from '@oclif/command'
-import { PaperbackLoggerClient } from '../devtools/generated/typescript/pdt_grpc_pb'
-import { LogFilter, LogLine } from '../devtools/generated/typescript/pdt_pb'
+import { PaperbackLoggerClient } from '../devtools/generated/typescript/PDTLogger_grpc_pb'
+import { LogFilter, LogLine } from '../devtools/generated/typescript/PDTLogger_pb'
 import chalk from 'chalk'
 import { CLICommand } from '../command'
 
