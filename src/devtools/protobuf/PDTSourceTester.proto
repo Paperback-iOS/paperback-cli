@@ -1,5 +1,36 @@
 syntax="proto3";
 
 service PaperbackSourceTester {
-    
+    rpc installSource(SourceInstallRequest) returns (SourceInstallResponse) {}
+    rpc testSource(SourceTestRequest) returns (stream SourceTestResponse) {}
+}
+
+message SourceInstallRequest {
+    string sourceId = 1;
+    string repoBaseUrl = 2;
+}
+
+message SourceInstallResponse {
+    enum Status {
+        SUCCESS = 0;
+        FAILURE = 2;
+    }
+}
+
+message SourceTestRequest {
+    message TestData {
+        optional string mangaId = 1;
+        optional string chapterId = 2;
+        optional string searchString = 3;
+        optional string searchTagId = 4;
+    }
+
+    string sourceId = 1;
+    optional TestData data = 2;
+}
+
+message SourceTestResponse {
+    string testCase = 1;
+    uint64 completeTime = 2;
+    repeated string failures = 4;
 }

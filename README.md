@@ -32,6 +32,7 @@ USAGE
 * [`paperback help [COMMAND]`](#paperback-help-command)
 * [`paperback logcat`](#paperback-logcat)
 * [`paperback serve`](#paperback-serve)
+* [`paperback test [SOURCE]`](#paperback-test-source)
 
 ## `paperback bundle`
 
@@ -94,4 +95,22 @@ OPTIONS
 ```
 
 _See code: [src/commands/serve.ts](https://github.com/FaizanDurrani/paperback-cli/blob/v1.4.0/src/commands/serve.ts)_
+
+## `paperback test [SOURCE]`
+
+describe the command here
+
+```
+USAGE
+  $ paperback test [SOURCE]
+
+ARGUMENTS
+  SOURCE  (optional) The source to test
+
+OPTIONS
+  --ip=ip
+  --port=port  [default: 27015]
+```
+
+_See code: [src/commands/test.ts](https://github.com/FaizanDurrani/paperback-cli/blob/v1.4.0/src/commands/test.ts)_
 <!-- commandsstop -->
