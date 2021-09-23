@@ -8,6 +8,8 @@ import * as fs from 'fs'
 import chalk from 'chalk'
 import { SourceTester } from '../source-tester'
 import { SourceTestRequest } from '../devtools/generated/typescript/PDTSourceTester_pb'
+import shelljs from 'shelljs'
+import Utils from '../utils'
 
 export default class Test extends CLICommand {
   static override description = 'describe the command here'
@@ -31,25 +33,26 @@ export default class Test extends CLICommand {
 
     const sourceId = args.source
     const cwd = process.cwd()
-    const bundleDir = path.join(cwd, 'bundles')
-
-    await Bundle.run([])
-
-    let sourcesToTest: string[] = []
-    if (sourceId) {
-      sourcesToTest = fs.readdirSync(bundleDir).filter(file => {
-        return file.toLowerCase() === sourceId.toLowerCase() && fs.statSync(path.join(bundleDir, file)).isDirectory()
-      })
-    } else {
-      sourcesToTest = fs.readdirSync(bundleDir).filter(file => fs.statSync(path.join(bundleDir, file)).isDirectory())
-    }
 
     if (flags.ip) {
       // connect to the app here
+      // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+      // @ts-ignore
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const bundleDir = path.join(cwd, 'bundles')
+
+      await Bundle.run([])
     } else {
-      console.clear()
-      const tester = new SourceTester(bundleDir)
-      for (const source of sourcesToTest) {
+      const buildDir = path.join(cwd, 'temp_build')
+      this.log()
+      this.log(chalk.bold.underline.bgBlue.white('Transpiling Sources'))
+      await this.measure('Time', Utils.headingFormat, async () => {
+        Utils.deleteFolderRecursive(buildDir)
+        shelljs.exec('npx tsc --outDir temp_build')
+      })
+
+      const tester = new SourceTester(buildDir)
+      for (const source of this.getSourceIdsToTest(sourceId, buildDir)) {
         this.log()
         this.log(chalk.bold.underline.bgBlue.white(`Testing ${source}`))
         const request = new SourceTestRequest()
@@ -69,5 +72,17 @@ export default class Test extends CLICommand {
       }
       this.log()
     }
+  }
+
+  private getSourceIdsToTest(sourceId: string, bundleDir: string) {
+    let sourcesToTest = []
+    if (sourceId) {
+      sourcesToTest = fs.readdirSync(bundleDir).filter(file => {
+        return file.toLowerCase() === sourceId.toLowerCase() && fs.statSync(path.join(bundleDir, file)).isDirectory()
+      })
+    } else {
+      sourcesToTest = fs.readdirSync(bundleDir).filter(file => fs.statSync(path.join(bundleDir, file)).isDirectory())
+    }
+    return sourcesToTest
   }
 }

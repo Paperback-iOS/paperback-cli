@@ -14,7 +14,7 @@ export class SourceTester {
   async testSource(request: SourceTestRequest, callback: (response: SourceTestResponse) => Promise<void>) {
     const testData = request.getData()
 
-    const sourceFile = require(path.join(this.bundleDir, request.getSourceid()))
+    const sourceFile = require(path.join(this.bundleDir, request.getSourceid(), request.getSourceid()))
     const SourceClass = sourceFile[request.getSourceid()]
     const source: Source = new SourceClass(cheerio)
 
