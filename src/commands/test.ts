@@ -27,9 +27,9 @@ export default class Test extends CLICommand {
   ]
 
   async run() {
-    const { flags } = this.parse(Test)
+    const { flags, args } = this.parse(Test)
 
-    const sourceId = 'MangaDex'
+    const sourceId = args.source
     const cwd = process.cwd()
     const bundleDir = path.join(cwd, 'bundles')
 
