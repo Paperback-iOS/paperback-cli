@@ -77,7 +77,7 @@ export class SourceTester {
           if (chapters.length === 0) {
             testCase.addFailures('Missing Chapters')
           } else if (testData?.hasChapterid() !== true) {
-            testData?.setChapterid(chapters[0].id)
+            testData?.setChapterid(chapters[0]!.id)
           }
 
           (await Promise.all(
@@ -163,7 +163,7 @@ export class SourceTester {
           await source.getHomePageSections?.((x: HomeSection) => {
             sections[x.id] = x
             if (x.items && x.items.length > 0 && testData && !testData.hasMangaid()) {
-              testData.setMangaid(x.items[0].id)
+              testData.setMangaid(x.items[0]!.id)
             }
           })
         } catch (error: any) {

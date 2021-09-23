@@ -3,7 +3,7 @@ import Command from '@oclif/command'
 import Utils from './utils'
 
 export abstract class CLICommand extends Command {
-  log(message = '') {
+  override log(message = '') {
     Utils.log(message)
   }
 
