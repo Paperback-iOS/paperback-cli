@@ -49,11 +49,12 @@ export default class Test extends CLICommand {
       for (const source of sourcesToTest) {
         const request = new SourceTestRequest()
         request.setSourceid(source)
-        // request.setData()
+        request.setData(new SourceTestRequest.TestData())
 
         await tester.testSource(request, async response => {
-          this.log(chalk.bold(response.getTestcase()))
-          this.log(`Completion Time: ${response.getCompletetime()}`)
+          this.log()
+          this.log(`${chalk.red.bold('#')} ${chalk.bold(response.getTestcase())}: ${chalk.green(response.getCompletetime().toFixed(0) + 'ms')}`)
+
           response.getFailuresList().forEach(failure => {
             this.log(`${chalk.bold.white.bgRed('[FAILURE]')} ${failure}`)
           })
