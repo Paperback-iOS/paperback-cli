@@ -19,7 +19,7 @@ $ npm install -g paperback-cli
 $ paperback COMMAND
 running command...
 $ paperback (-v|--version|version)
-paperback-cli/2.0.0-alpha.3 darwin-x64 node-v15.3.0
+paperback-cli/2.0.0-alpha.4 darwin-x64 node-v15.3.0
 $ paperback --help [COMMAND]
 USAGE
   $ paperback COMMAND
@@ -47,7 +47,7 @@ OPTIONS
   --folder=folder  Subfolder to output to
 ```
 
-_See code: [src/commands/bundle.ts](https://github.com/FaizanDurrani/paperback-cli/blob/v2.0.0-alpha.3/src/commands/bundle.ts)_
+_See code: [src/commands/bundle.ts](https://github.com/FaizanDurrani/paperback-cli/blob/v2.0.0-alpha.4/src/commands/bundle.ts)_
 
 ## `paperback help [COMMAND]`
 
@@ -79,7 +79,7 @@ OPTIONS
   --port=port  [default: 27015]
 ```
 
-_See code: [src/commands/logcat.ts](https://github.com/FaizanDurrani/paperback-cli/blob/v2.0.0-alpha.3/src/commands/logcat.ts)_
+_See code: [src/commands/logcat.ts](https://github.com/FaizanDurrani/paperback-cli/blob/v2.0.0-alpha.4/src/commands/logcat.ts)_
 
 ## `paperback serve`
 
@@ -94,7 +94,7 @@ OPTIONS
   -p, --port=port  [default: 8080]
 ```
 
-_See code: [src/commands/serve.ts](https://github.com/FaizanDurrani/paperback-cli/blob/v2.0.0-alpha.3/src/commands/serve.ts)_
+_See code: [src/commands/serve.ts](https://github.com/FaizanDurrani/paperback-cli/blob/v2.0.0-alpha.4/src/commands/serve.ts)_
 
 ## `paperback test [SOURCE]`
 
@@ -112,5 +112,5 @@ OPTIONS
   --port=port  [default: 27015]
 ```
 
-_See code: [src/commands/test.ts](https://github.com/FaizanDurrani/paperback-cli/blob/v2.0.0-alpha.3/src/commands/test.ts)_
+_See code: [src/commands/test.ts](https://github.com/FaizanDurrani/paperback-cli/blob/v2.0.0-alpha.4/src/commands/test.ts)_
 <!-- commandsstop -->
