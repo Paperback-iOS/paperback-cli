@@ -7,9 +7,9 @@ import Utils from '../utils'
 import chalk from 'chalk'
 
 export default class Serve extends CLICommand {
-  static description = 'Build the sources and start a local server'
+  static override description = 'Build the sources and start a local server'
 
-  static flags = {
+  static override flags = {
     help: flags.help({ char: 'h' }),
     port: flags.integer({ char: 'p', default: 8080 }),
   }

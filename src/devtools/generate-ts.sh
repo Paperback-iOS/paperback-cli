@@ -12,3 +12,4 @@ echo "Generating TS Files"
 --ts_out=grpc_js:./generated/typescript \
 -I ./protobuf \
 protobuf/*.proto
+echo "DONE"

@@ -6,9 +6,9 @@ import chalk from 'chalk'
 import { CLICommand } from '../command'
 
 export default class Logcat extends CLICommand {
-  static description = 'describe the command here'
+  static override description = 'describe the command here'
 
-  static flags = {
+  static override flags = {
     ip: flags.string({ name: 'ip', default: 'localhost' }),
     port: flags.integer({ name: 'port', default: 27015 }),
   }

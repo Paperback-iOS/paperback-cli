@@ -4,21 +4,21 @@ import { CLICommand } from '../command'
 import * as path from 'path'
 import * as fs from 'fs'
 
-import * as browserify from 'browserify'
+import browserify from 'browserify'
 import * as shelljs from 'shelljs'
 import Utils from '../utils'
 
-import * as updateNotifier from 'update-notifier'
+import updateNotifier from 'update-notifier'
 const pkg = require('../../package.json')
 
 // Homepage generation requirement
 const pug = require('pug')
 
 export default class Bundle extends CLICommand {
-  static description =
+  static override description =
     'Builds all the sources in the repository and generates a versioning file';
 
-  static flags = {
+  static override flags = {
     help: flags.help({ char: 'h' }),
     folder: flags.string({ description: 'Subfolder to output to', required: false }),
   };

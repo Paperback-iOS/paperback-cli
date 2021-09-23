@@ -10,14 +10,14 @@ import { SourceTester } from '../source-tester'
 import { SourceTestRequest } from '../devtools/generated/typescript/PDTSourceTester_pb'
 
 export default class Test extends CLICommand {
-  static description = 'describe the command here'
+  static override description = 'describe the command here'
 
-  static flags = {
+  static override flags = {
     ip: flags.string({ name: 'ip', default: undefined }),
     port: flags.integer({ name: 'port', default: 27015 }),
   }
 
-  static args = [
+  static override args = [
     {
       name: 'source',
       required: false,
