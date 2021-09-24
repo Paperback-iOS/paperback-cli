@@ -59,7 +59,7 @@ export default class Server {
             response.end('Sorry, check with the site admin for error: ' + error.code + ' ..\n')
           }
         } else {
-          response.writeHead(200, {'Content-Type': contentType})
+          response.writeHead(200, { 'Content-Type': contentType })
           response.end(content, 'utf-8')
         }
       })
