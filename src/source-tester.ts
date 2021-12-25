@@ -1,15 +1,15 @@
 /* eslint-disable no-console */
 /* eslint-disable no-return-await */
 /* eslint-disable @typescript-eslint/ban-ts-ignore */
+export * from 'paperback-extensions-common/lib/_impl'
 import { HomeSection, Manga, Source, SourceManga } from 'paperback-extensions-common'
-import 'paperback-extensions-common/dist/models/impl_export'
 import { SourceTestRequest, SourceTestResponse } from './devtools/generated/typescript/PDTSourceTester_pb'
 import * as path from 'path'
 import cheerio from 'cheerio'
 
 export class SourceTester {
   // eslint-disable-next-line no-useless-constructor
-  constructor(private bundleDir: string) {}
+  constructor(private bundleDir: string) { }
 
   async testSource(request: SourceTestRequest, callback: (response: SourceTestResponse) => Promise<void>) {
     const testData = request.getData()
@@ -112,14 +112,14 @@ export class SourceTester {
 
         try {
           // @ts-ignore
-          const mangaDetails_: ({id: string} & Manga) | SourceManga = await source.getMangaDetails(mangaId)
+          const mangaDetails_: ({ id: string } & Manga) | SourceManga = await source.getMangaDetails(mangaId)
 
           // eslint-disable-next-line no-inner-declarations
-          function isSourceManga(mangaDetails: ({id: string} & Manga) | SourceManga): mangaDetails is SourceManga {
+          function isSourceManga(mangaDetails: ({ id: string } & Manga) | SourceManga): mangaDetails is SourceManga {
             return (mangaDetails as SourceManga).mangaInfo !== undefined
           }
 
-          let mangaDetails: {id: string} & Manga
+          let mangaDetails: { id: string } & Manga
           if (isSourceManga(mangaDetails_)) {
             mangaDetails = { ...mangaDetails_.mangaInfo, id: mangaDetails_.id }
           } else {
@@ -186,7 +186,7 @@ export class SourceTester {
     return homePageTestCase
   }
 
-  async measureTime(closure: () => Promise<void>): Promise<number>  {
+  async measureTime(closure: () => Promise<void>): Promise<number> {
     const startTime = process.hrtime.bigint()
     await closure()
     const endTime = Number(process.hrtime.bigint() - startTime)
