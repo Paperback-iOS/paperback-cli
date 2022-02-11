@@ -39,7 +39,7 @@ export default class Logcat extends CLICommand {
         }
 
         // eslint-disable-next-line no-console
-        console.log(`${level} [${logLine.getDate()?.toDate().getTime()}] [${logLine.getTag()}] ${logLine.getMessage()}`)
+        console.log(`${level} [${logLine.getDate()?.toDate().getTime()}] ${logLine.getTagsList().map(x => `[${x}]`).join(' ')} ${logLine.getMessage()}`)
       })
       .on('error', reject)
       .on('close', resolve)

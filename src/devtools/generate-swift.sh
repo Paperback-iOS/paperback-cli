@@ -12,4 +12,5 @@ protoc ./protobuf/*.proto \
 --swift_opt=Visibility=Public \
 --swift_out=./generated/swift \
 --grpc-swift_opt=Visibility=Public \
---grpc-swift_out=./generated/swift \
+--grpc-swift_out=./generated/swift 
+echo "DONE"

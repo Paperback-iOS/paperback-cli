@@ -13,7 +13,7 @@ message LogLine {
         ERROR = 2;
     }
     LogLevel level = 1;
-    string tag = 2;
+    repeated string tags = 2;
     string message = 3;
     google.protobuf.Timestamp date = 4;
 }

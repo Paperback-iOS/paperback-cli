@@ -1,4 +1,5 @@
 syntax="proto3";
+import "google/protobuf/timestamp.proto";
 
 service PaperbackSourceTester {
     rpc installSource(SourceInstallRequest) returns (SourceInstallResponse) {}
@@ -19,10 +20,21 @@ message SourceInstallResponse {
 
 message SourceTestRequest {
     message TestData {
+        message SearchData {
+            optional string query = 1;
+            repeated string includedTags = 2;
+            repeated string excludedTags = 3;
+
+            // Select the item at this index
+            optional string itemIndex = 4;
+            // Ensure that its id matches this id
+            optional string itemId = 5;
+        }
+
         optional string mangaId = 1;
         optional string chapterId = 2;
-        optional string searchString = 3;
-        optional string searchTagId = 4;
+        optional google.protobuf.Timestamp updateTime = 3;
+        optional SearchData searchData = 4;
     }
 
     string sourceId = 1;

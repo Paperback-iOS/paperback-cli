@@ -6,6 +6,7 @@ import { HomeSection, Manga, Source, SourceManga } from 'paperback-extensions-co
 import { SourceTestRequest, SourceTestResponse } from './devtools/generated/typescript/PDTSourceTester_pb'
 import * as path from 'path'
 import cheerio from 'cheerio'
+import { expect } from './expect'
 
 export class SourceTester {
   // eslint-disable-next-line no-useless-constructor
@@ -23,6 +24,15 @@ export class SourceTester {
     await callback(await this.testGetMangaDetails(source, testData))
     await callback(await this.testGetChapters(source, testData))
     await callback(await this.testGetChapterDetails(source, testData))
+    await callback(await this.testSearch(source, testData))
+  }
+
+  private async testSearch(source: Source, testData: SourceTestRequest.TestData | undefined) {
+    const testCase = new SourceTestResponse()
+    const searchData = testData?.getSearchdata()
+    testCase.setTestcase(`Search (${searchData?.getQuery()})`)
+
+    return testCase
   }
 
   private async testGetChapterDetails(source: Source, testData: SourceTestRequest.TestData | undefined) {
@@ -46,9 +56,9 @@ export class SourceTester {
           const chapterDetails = await source.getChapterDetails(mangaId, chapterId);
 
           (await Promise.all([
-            this.expect(chapterDetails.id, 'Chapter ID Mismatch', async x => x !== chapterId),
-            this.expect(chapterDetails.mangaId, 'Chapter does not belong to the same manga id', async x => x !== mangaId),
-            this.expect(chapterDetails.pages, 'Chapter pages empty', async x => x.length === 0),
+            expect(chapterDetails.id).toBeEqual(chapterId).assertWithError('Chapter ID Mismatch'),
+            expect(chapterDetails.mangaId).toBeEqual(mangaId).assertWithError('Chapter does not belong to the same manga id'),
+            expect(chapterDetails.pages.length).toBeGreaterThan(0).assertWithError('Chapter pages empty'),
           ]))
           .filter(x => x)
           .forEach(x => testCase.addFailures(x!))
@@ -80,14 +90,12 @@ export class SourceTester {
             testData?.setChapterid(chapters[0]!.id)
           }
 
-          (await Promise.all(
-            chapters.flatMap(chapter => [
-              this.expect(chapter.id, '[' + chapter.id + '] Chapter ID is invalid' + chapter.id, async id => !id),
-              this.expect(chapter.chapNum, '[' + chapter.id + '] Chapter number is NaN', async n => isNaN(n)),
-              this.expect(chapter.mangaId, '[' + chapter.id + '] Chapter does not belong to the same manga', async x => x !== mangaId),
-              this.expect(chapter.time, '[' + chapter.id + '] Chapter time is invalid', async x => !x),
-            ])
-          ))
+          chapters.flatMap(chapter => [
+            expect(chapter.id).toExist().assertWithError('[' + chapter.id + '] Chapter ID is invalid' + chapter.id),
+            expect(chapter.chapNum).toNotMatchPredicate(isNaN).assertWithError('[' + chapter.id + '] Chapter number is NaN'),
+            expect(chapter.mangaId).toBeEqual(mangaId).assertWithError('[' + chapter.id + '] Chapter does not belong to the same manga'),
+            expect(chapter.time).toExist().assertWithError('[' + chapter.id + '] Chapter time is invalid'),
+          ])
           .filter(x => x)
           .forEach(x => testCase.addFailures(x!))
         } catch (error: any) {
@@ -172,11 +180,7 @@ export class SourceTester {
 
         (await Promise.all(
           Object.values(sections).map(
-            async section => this.expect(
-              section.items?.length ?? 0,
-              `Expected section (${section.id}) to not be empty`,
-              async itemCount => itemCount === 0
-            )
+            async section => expect(section.items?.length).toExist().toBeGreaterThan(0).assertWithError(`Expected section (${section.id}) to not be empty`)
           )
         ))
         .filter(x => x)
@@ -191,13 +195,5 @@ export class SourceTester {
     await closure()
     const endTime = Number(process.hrtime.bigint() - startTime)
     return (endTime / 1000000)
-  }
-
-  async expect<T>(object: T, label: string, predicate: (obj: T) => Promise<boolean>) {
-    if (await predicate(object)) {
-      return label
-    }
-
-    return undefined
   }
 }
