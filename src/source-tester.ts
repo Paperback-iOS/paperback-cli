@@ -24,7 +24,7 @@ export class SourceTester {
     await callback(await this.testGetMangaDetails(source, testData))
     await callback(await this.testGetChapters(source, testData))
     await callback(await this.testGetChapterDetails(source, testData))
-    await callback(await this.testSearch(source, testData))
+    // await callback(await this.testSearch(source, testData))
   }
 
   private async testSearch(source: Source, testData: SourceTestRequest.TestData | undefined) {

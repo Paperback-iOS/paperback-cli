@@ -63,6 +63,8 @@ export default class Bundle extends CLICommand {
     }
 
     const promises = fs.readdirSync(directoryPath).map(async file => {
+      if (file.startsWith('.') || file.startsWith('tests')) return
+
       try {
         const time = this.time(`- Generating ${file} Info`)
         const sourceInfo = await this.generateSourceInfo(file, directoryPath)
