@@ -1,7 +1,7 @@
 {
   "name": "paperback-cli",
   "description": "Paperback CLI for common tools",
-  "version": "2.0.0-alpha.12",
+  "version": "2.0.0-alpha.13",
   "author": "Faizan Durrani",
   "bin": {
     "paperback": "bin/run"
